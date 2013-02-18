@@ -29,7 +29,7 @@ object Main extends App {
 
   val month  = 2
   val day = 17
-  val googleClicks = hours.par flatMap { hour =>
+  val googleClicks = hours flatMap { hour =>
     val resource = Resource.fromInputStream(new GZIPInputStream(
       s3.getObject("ophan-logs", s"2013/$month/$day/$hour.gz").getObjectContent))
     //    case (month, day) =>
@@ -46,9 +46,9 @@ object Main extends App {
             } yield Some((q.head.replaceAllLiterally("%20", " ").replaceAllLiterally("+", " "), cd.head) -> 1)
           } getOrElse(None)
       }
-    }
-  } map (x => Map(x.get)) reduce (_ |+| _)
-  googleClicks.toList.sortBy(_._2) map (println)
+    }.map(x => Map(x.get)).reduce(_ |+| _).toList.sortBy(_._2).map(s"$month/$day/$hour" -> _)
+  }
+  googleClicks map (println)
 
 
 

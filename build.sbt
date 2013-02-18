@@ -16,4 +16,4 @@ libraryDependencies += "org.json4s" %% "json4s-native" % "3.1.0"
 
 libraryDependencies +="com.github.theon" %% "scala-uri" % "0.3.2"
 
-javaOptions += "-Xmx8G"
+javaOptions += "-Xmx8G -Xms4G"
